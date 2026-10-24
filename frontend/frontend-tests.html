@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskPulse — Frontend AI Benchmark Test Runner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .test-wrapper {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+        }
+        .test-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 16px;
+        }
+        .test-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        .test-card.passed { border-left: 4px solid #10b981; }
+        .test-card.failed { border-left: 4px solid #ef4444; }
+        .test-title { font-weight: 600; font-size: 0.95rem; }
+        .test-detail { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--text-muted); }
+        .test-badge { font-weight: 800; font-size: 0.85rem; padding: 4px 10px; border-radius: 6px; }
+        .badge-passed { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .badge-failed { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+    </style>
+</head>
+<body>
+    <div class="test-wrapper glass-card">
+        <div class="test-header">
+            <div>
+                <h2>TaskPulse Frontend AI Benchmark Runner</h2>
+                <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 4px;">
+                    Evaluates Compile-Time & Runtime Error Corrections in Frontend
+                </p>
+            </div>
+            <button id="btn-run" class="btn btn-primary">▶ Run Frontend Tests</button>
+        </div>
+
+        <div id="results-list"></div>
+
+        <div style="margin-top: 24px; text-align: center;">
+            <a href="index.html" style="color: var(--primary-indigo); text-decoration: underline; font-size: 0.9rem;">
+                &larr; Return to TaskPulse Board
+            </a>
+        </div>
+    </div>
+
+    <!-- Hidden elements for DOM testing -->
+    <div style="display: none;">
+        <button id="btn-submit-task" typ="submit"></button>
+        <span class="badge-priority-high"></span>
+    </div>
+
+    <script src="validator.js"></script>
+    <script src="frontend-tests.js"></script>
+    <script>
+        const runBtn = document.getElementById("btn-run");
+        const listEl = document.getElementById("results-list");
+
+        async function execute() {
+            const results = await window.FrontendTestSuite.runAll();
+            listEl.innerHTML = "";
+            results.forEach(res => {
+                const card = document.createElement("div");
+                card.className = `test-card ${res.passed ? 'passed' : 'failed'}`;
+                card.innerHTML = `
+                    <div>
+                        <div class="test-title">${res.description}</div>
+                        ${res.details ? `<div class="test-detail">${res.details}</div>` : ''}
+                    </div>
+                    <span class="test-badge ${res.passed ? 'badge-passed' : 'badge-failed'}">
+                        ${res.passed ? 'PASS' : 'FAIL'}
+                    </span>
+                `;
+                listEl.appendChild(card);
+            });
+        }
+
+        runBtn.addEventListener("click", execute);
+        document.addEventListener("DOMContentLoaded", execute);
+    </script>
+</body>
+</html>

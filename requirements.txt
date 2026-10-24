@@ -1,0 +1,11 @@
+﻿# Python / Environment Dependencies for AI Model Evaluation
+# Used by automated benchmark scripts, linters, and grading pipelines
+node>=18.0.0
+npm>=9.0.0
+express==4.19.2
+cors==2.8.5
+dotenv==16.4.5
+pytest>=7.4.0
+requests>=2.31.0
+flake8>=6.1.0
+eslint>=8.56.0

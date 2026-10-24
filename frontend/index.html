@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TaskPulse — Agile Productivity & Task Management Dashboard">
+    <title>TaskPulse — Agile Project & Task Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="ambient-glow glow-top"></div>
+    <div class="ambient-glow glow-bottom"></div>
+
+    <div class="app-layout">
+        <!-- Top Navigation -->
+        <header class="app-header glass-card">
+            <div class="brand">
+                <div class="brand-icon">⚡</div>
+                <div>
+                    <h1 class="brand-title">Task<span>Pulse</span></h1>
+                    <p class="brand-subtitle">Agile Workflow & AI Benchmark Suite</p>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <div class="backend-status-pill" id="backend-status">
+                    <span class="status-indicator"></span>
+                    <span id="backend-status-text">Checking Backend API...</span>
+                </div>
+                <button id="btn-open-modal" class="btn btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    New Task
+                </button>
+            </div>
+        </header>
+
+        <!-- Stats Overview Banner -->
+        <section class="stats-grid">
+            <div class="stat-card glass-card">
+                <div class="stat-icon-wrap" style="color: #6366f1; background: rgba(99, 102, 241, 0.15);">📋</div>
+                <div>
+                    <div class="stat-number" id="stat-total">5</div>
+                    <div class="stat-label">Total Tasks</div>
+                </div>
+            </div>
+
+            <div class="stat-card glass-card">
+                <div class="stat-icon-wrap" style="color: #10b981; background: rgba(16, 185, 129, 0.15);">✅</div>
+                <div>
+                    <div class="stat-number" id="stat-completed">2</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+            </div>
+
+            <div class="stat-card glass-card">
+                <div class="stat-icon-wrap" style="color: #f59e0b; background: rgba(245, 158, 11, 0.15);">⏳</div>
+                <div>
+                    <div class="stat-number" id="stat-pending">3</div>
+                    <div class="stat-label">In Progress / Todo</div>
+                </div>
+            </div>
+
+            <div class="stat-card glass-card">
+                <div class="stat-icon-wrap" style="color: #06b6d4; background: rgba(6, 182, 212, 0.15);">📊</div>
+                <div>
+                    <!-- Displays backend completion rate -->
+                    <div class="stat-number" id="stat-rate">40%</div>
+                    <div class="stat-label">Completion Velocity</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filter & Search Toolbar -->
+        <section class="toolbar glass-card">
+            <div class="search-wrap">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="search-input" placeholder="Search tasks by title or keyword...">
+            </div>
+
+            <div class="filter-group">
+                <select id="status-filter" class="select-control">
+                    <option value="">All Statuses</option>
+                    <option value="todo">To Do</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                </select>
+
+                <select id="priority-filter" class="select-control">
+                    <option value="">All Priorities</option>
+                    <option value="high">High Priority</option>
+                    <option value="medium">Medium Priority</option>
+                    <option value="low">Low Priority</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Kanban Board / Task Columns -->
+        <main class="board-columns">
+            <!-- Column 1: To Do -->
+            <div class="column-card glass-card" data-status="todo">
+                <div class="column-header">
+                    <div class="col-title-group">
+                        <span class="column-bullet bullet-todo"></span>
+                        <h2 class="column-title">To Do</h2>
+                    </div>
+                    <span class="column-badge" id="badge-todo">0</span>
+                </div>
+                <div class="task-list" id="list-todo">
+                    <!-- Tasks rendered dynamically -->
+                </div>
+            </div>
+
+            <!-- Column 2: In Progress -->
+            <div class="column-card glass-card" data-status="in-progress">
+                <div class="column-header">
+                    <div class="col-title-group">
+                        <span class="column-bullet bullet-prog"></span>
+                        <h2 class="column-title">In Progress</h2>
+                    </div>
+                    <span class="column-badge" id="badge-progress">0</span>
+                </div>
+                <div class="task-list" id="list-in-progress">
+                    <!-- Tasks rendered dynamically -->
+                </div>
+            </div>
+
+            <!-- Column 3: Completed -->
+            <div class="column-card glass-card" data-status="completed">
+                <div class="column-header">
+                    <div class="col-title-group">
+                        <span class="column-bullet bullet-done"></span>
+                        <h2 class="column-title">Completed</h2>
+                    </div>
+                    <span class="column-badge" id="badge-completed">0</span>
+                </div>
+                <div class="task-list" id="list-completed">
+                    <!-- Tasks rendered dynamically -->
+                </div>
+            </div>
+        </main>
+
+        <!-- AI Benchmark Inspection Ribbon -->
+        <aside class="ai-inspector-card glass-card">
+            <div class="inspector-summary">
+                <span class="ai-badge">🤖 AI Benchmark Ground Truth</span>
+                <p>10 intentional bugs planted (5 in Backend Node.js, 5 in Frontend HTML/CSS/JS). See <a href="../bugs.md" target="_blank">bugs.md</a> for full specifications or run tests below.</p>
+            </div>
+            <div class="test-links">
+                <a href="frontend-tests.html" class="btn btn-secondary">▶ Run Frontend Tests</a>
+            </div>
+        </aside>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>TaskPulse Fullstack Benchmark &copy; 2026. Built for AI Automated Code Correction & Debugging Evaluations.</p>
+        </footer>
+    </div>
+
+    <!-- Create Task Modal Dialog -->
+    <div class="modal-overlay" id="task-modal">
+        <div class="modal-dialog glass-card">
+            <div class="modal-header">
+                <h3 class="modal-title">Create New Task</h3>
+                <button id="btn-close-modal" class="btn-close" aria-label="Close modal">&times;</button>
+            </div>
+            <form id="create-task-form" class="modal-body">
+                <div class="form-group">
+                    <label for="task-title">Task Title *</label>
+                    <input type="text" id="task-title" placeholder="e.g. Implement OAuth2 Refresh Flow" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="task-desc">Description</label>
+                    <textarea id="task-desc" rows="3" placeholder="Add technical context or requirements..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="task-priority">Priority</label>
+                        <select id="task-priority" class="select-control">
+                            <option value="high">High</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="task-due">Due Date</label>
+                        <input type="date" id="task-due">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btn-cancel" class="btn btn-secondary">Cancel</button>
+                    <!-- BUG #8 (Intentional Markup Typo): 'typ' instead of 'type="submit"' -->
+                    <button typ="submit" id="btn-submit-task" class="btn btn-primary">Create Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

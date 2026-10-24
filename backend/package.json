@@ -1,0 +1,26 @@
+﻿{
+  "name": "taskpulse-backend",
+  "version": "1.0.0",
+  "description": "Node.js REST API for TaskPulse AI Testing Benchmark",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node backend-test.js"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "rest-api",
+    "task-manager",
+    "ai-testing",
+    "benchmark"
+  ],
+  "author": "Karnik",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}
